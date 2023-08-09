@@ -3,15 +3,60 @@ import { menuArray } from "./data.js";
 let orderArray = [];
 
 document.addEventListener("click", (e) => {
-  if (e.target.dataset.addBtn) {
-    handleAddBtnClick(e.target.dataset.addBtn);
+  if (e.target.dataset.itemToAdd) {
+    handleAddBtnClick(e.target.dataset.itemToAdd);
+  } else if (e.target.dataset.itemToRemove) {
+    handleRemoveBtnClick(e.target.dataset.itemToRemove);
+  } else if (e.target.id === "decrement-btn") {
+    decrementOrderQuantity(e.target.dataset.itemToDecrement);
+  } else if (e.target.id === "increment-btn") {
+    incrementOrderQuantity(e.target.dataset.itemToIncrement);
   }
 });
 
-function handleAddBtnClick(itemId) {
-  const targetItemObj = menuArray.find((item) => item.id === Number(itemId));
-  orderArray.push(targetItemObj);
+function handleAddBtnClick(menuItemId) {
+  const targetMenuObj = menuArray.find(
+    (item) => item.id === Number(menuItemId)
+  );
+  const objWithQuantity = {
+    ...targetMenuObj,
+    quantity: 1,
+  };
 
+  const objAlreadyAdded = orderArray.some(
+    (item) => item.id === objWithQuantity.id
+  );
+
+  if (!objAlreadyAdded) {
+    orderArray.push(objWithQuantity);
+  }
+  renderHtml();
+}
+
+function handleRemoveBtnClick(orderItemId) {
+  const targetOrderObj = orderArray.find(item => item.id === orderItemId);
+  const indexToRemove = orderArray.indexOf(targetOrderObj)
+  console.log(indexToRemove)
+  orderArray.splice(indexToRemove, 1)
+  renderHtml()
+}
+
+function decrementOrderQuantity(orderItemId) {
+  const targetOrderObj = orderArray.find(
+    (item) => item.id === Number(orderItemId)
+  );
+
+  if (targetOrderObj.quantity > 1) {
+    targetOrderObj.quantity--;
+    renderHtml();
+  }
+}
+
+function incrementOrderQuantity(orderItemId) {
+  const targetOrderObj = orderArray.find(
+    (item) => item.id === Number(orderItemId)
+  );
+  targetOrderObj.quantity++;
   renderHtml();
 }
 
@@ -28,7 +73,7 @@ function getMenuListHtml() {
           <p class="item-ingredients">${menuItem.ingredients}</p>
           <p class="item-price">${menuItem.price}€</p>
         </div>
-        <button class="add-btn" data-add-btn="${menuItem.id}">+</button>
+        <button class="ordering-circle" id="add-btn" data-item-to-add="${menuItem.id}">+</button>
       </div>
     </div>
     `;
@@ -37,38 +82,44 @@ function getMenuListHtml() {
 }
 
 function getOrderHtml() {
-  let orderHtml = "";
-  let orderList = "";
+  let orderListHtml = "";
+  let orderItemHtml = "";
   let totalPrice = 0;
 
   orderArray.forEach((orderItem) => {
-    totalPrice += orderItem.price;
+    let totalItemPrice = orderItem.quantity * orderItem.price;
+    totalPrice += totalItemPrice;
 
-    orderList += `
+    orderItemHtml += `
     <div class="order-item">
       <p class="item-name">${orderItem.name}</p>
-      <button class="remove-btn">Remove</button>
-      <p class="item-price">${orderItem.price}€</p>
+      <div class="item-quantity">
+      <span><button class="ordering-circle quantity-btn" id="decrement-btn" data-item-to-decrement="${orderItem.id}">-</button></span>
+      <span class>${orderItem.quantity}</span>
+      <span><button class="ordering-circle quantity-btn" id="increment-btn" data-item-to-increment="${orderItem.id}">+</button></span>
+      </div>
+      <button id="remove-btn" data-item-to-remove="${orderItem.id}">Remove</button>
+      <p class="item-price">${totalItemPrice}€</p>
     </div>
   `;
 
-    orderHtml = `
+    orderListHtml = `
   <div class="order">
     <div class="order-inner">
       <p class="order-title">Your order</p>
       <div class="order-list">
-        ${orderList}
+        ${orderItemHtml}
       </div>
       <div class="order-total">
         <p class="order-title">Total price:</p>
         <p class="item-price">${totalPrice}€</p>
       </div>
-      <button class="order-btn">Complete order</button>
+      <button id="order-btn">Complete order</button>
     </div>
   </div>
 `;
   });
-  return orderHtml;
+  return orderListHtml;
 }
 
 function renderHtml() {
