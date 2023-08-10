@@ -19,8 +19,19 @@
 	</header>
 	<main>
 		<div class="menu-list" id="menu-list"></div>
-		<div class="order-detail" id="order-detail"></div>
+		<div class="order-list" id="order-list"></div>
 	</main>
+	<div class="hidden" id="payment-modal">
+		<div class="modal-inner">
+			<h3>Enter card details</h3>
+			<form id="payment-details-form">
+				<input type="text" name="name" placeholder="Enter your name" required>
+				<input type="number" name="card-number" placeholder="Enter card number" required>
+				<input type="number" name="card-cvv-code" placeholder="Enter CVV" required>
+				<button type="submit" class="submit-btn" id="pay-btn">Pay</button>
+			</form>
+		</div>
+	</div>
 	<script src="index.js" type="module"></script>
 </body>
 

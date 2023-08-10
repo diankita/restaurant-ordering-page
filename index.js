@@ -3,14 +3,16 @@ import { menuArray } from "./data.js";
 let orderArray = [];
 
 document.addEventListener("click", (e) => {
-  if (e.target.dataset.itemToAdd) {
+  if (e.target.id === "add-btn") {
     handleAddBtnClick(e.target.dataset.itemToAdd);
-  } else if (e.target.dataset.itemToRemove) {
+  } else if (e.target.id === "remove-btn") {
     handleRemoveBtnClick(e.target.dataset.itemToRemove);
   } else if (e.target.id === "decrement-btn") {
     decrementOrderQuantity(e.target.dataset.itemToDecrement);
   } else if (e.target.id === "increment-btn") {
     incrementOrderQuantity(e.target.dataset.itemToIncrement);
+  } else if (e.target.id === "order-btn") {
+    handleOrderBtnClick();
   }
 });
 
@@ -22,7 +24,6 @@ function handleAddBtnClick(menuItemId) {
     ...targetMenuObj,
     quantity: 1,
   };
-
   const objAlreadyAdded = orderArray.some(
     (item) => item.id === objWithQuantity.id
   );
@@ -34,11 +35,13 @@ function handleAddBtnClick(menuItemId) {
 }
 
 function handleRemoveBtnClick(orderItemId) {
-  const targetOrderObj = orderArray.find(item => item.id === orderItemId);
-  const indexToRemove = orderArray.indexOf(targetOrderObj)
-  console.log(indexToRemove)
-  orderArray.splice(indexToRemove, 1)
-  renderHtml()
+  const targetOrderObj = orderArray.find(
+    (item) => item.id === Number(orderItemId)
+  );
+  const indexToRemove = orderArray.indexOf(targetOrderObj);
+
+  orderArray.splice(indexToRemove, 1);
+  renderHtml();
 }
 
 function decrementOrderQuantity(orderItemId) {
@@ -56,8 +59,13 @@ function incrementOrderQuantity(orderItemId) {
   const targetOrderObj = orderArray.find(
     (item) => item.id === Number(orderItemId)
   );
+
   targetOrderObj.quantity++;
   renderHtml();
+}
+
+function handleOrderBtnClick() {
+  document.querySelector("#payment-modal").classList.toggle("hidden");
 }
 
 function getMenuListHtml() {
@@ -88,6 +96,7 @@ function getOrderHtml() {
 
   orderArray.forEach((orderItem) => {
     let totalItemPrice = orderItem.quantity * orderItem.price;
+
     totalPrice += totalItemPrice;
 
     orderItemHtml += `
@@ -105,7 +114,7 @@ function getOrderHtml() {
 
     orderListHtml = `
   <div class="order">
-    <div class="order-inner">
+    <div class="order-inner" id="order-inner">
       <p class="order-title">Your order</p>
       <div class="order-list">
         ${orderItemHtml}
@@ -114,7 +123,7 @@ function getOrderHtml() {
         <p class="order-title">Total price:</p>
         <p class="item-price">${totalPrice}€</p>
       </div>
-      <button id="order-btn">Complete order</button>
+      <button class="submit-btn" id="order-btn">Complete order</button>
     </div>
   </div>
 `;
@@ -126,7 +135,7 @@ function renderHtml() {
   const menuList = document.querySelector("#menu-list");
   menuList.innerHTML = getMenuListHtml();
 
-  const orderDetail = document.querySelector("#order-detail");
+  const orderDetail = document.querySelector("#order-list");
   orderDetail.innerHTML = getOrderHtml();
 }
 
