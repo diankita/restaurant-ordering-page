@@ -1,7 +1,9 @@
 import { menuArray } from "./data.js";
 
+// global variables
 let orderArray = [];
 
+// event listeners
 document.addEventListener("click", (e) => {
   if (e.target.id === "add-btn") {
     handleAddBtnClick(e.target.dataset.itemToAdd);
@@ -24,6 +26,8 @@ document.addEventListener("submit", (e) => {
   }
 });
 
+// functions called by the above event listeners:
+// adding selected item to a newly created orderArray
 function handleAddBtnClick(menuItemId) {
   const targetMenuObj = menuArray.find(
     (item) => item.id === Number(menuItemId)
@@ -42,6 +46,7 @@ function handleAddBtnClick(menuItemId) {
   renderHtml();
 }
 
+// removing selected item from orderArray
 function handleRemoveBtnClick(orderItemId) {
   const targetOrderObj = orderArray.find(
     (item) => item.id === Number(orderItemId)
@@ -52,6 +57,7 @@ function handleRemoveBtnClick(orderItemId) {
   renderHtml();
 }
 
+// decrementing quantity of selected item
 function decrementOrderQuantity(orderItemId) {
   const targetOrderObj = orderArray.find(
     (item) => item.id === Number(orderItemId)
@@ -63,6 +69,7 @@ function decrementOrderQuantity(orderItemId) {
   }
 }
 
+// incrementing quantity of selected item
 function incrementOrderQuantity(orderItemId) {
   const targetOrderObj = orderArray.find(
     (item) => item.id === Number(orderItemId)
@@ -72,10 +79,13 @@ function incrementOrderQuantity(orderItemId) {
   renderHtml();
 }
 
+// displaying paymentModal with paymentDetailsForm
 function handleOrderBtnClick() {
   document.querySelector("#payment-modal").classList.toggle("hidden");
 }
 
+// hiding paymentModal and displaying confirmationMessage using the name entered in paymentDetailsForm
+// displaying feedbackModal using setTimeout
 function handlePayBtnClick(e) {
   e.preventDefault();
   const paymentDetailsForm = document.querySelector("#payment-details-form");
@@ -93,6 +103,7 @@ function handlePayBtnClick(e) {
   }, 2000);
 }
 
+// displaying thankYouMessage
 function displayThankYouMessage() {
   document.querySelector("#feedback-modal-inner").innerHTML = `
     <p class="confirmation-message">Thank you for your feedback!</p>
@@ -100,6 +111,7 @@ function displayThankYouMessage() {
     `;
 }
 
+// getting menuList by iterating over data imported from data.js
 function getMenuListHtml() {
   let menuListHtml = "";
 
@@ -121,6 +133,7 @@ function getMenuListHtml() {
   return menuListHtml;
 }
 
+// getting orderList by iterating over orderArray and updating each item's data
 function getOrderHtml() {
   let orderListHtml = "";
   let orderItemHtml = "";
@@ -163,6 +176,7 @@ function getOrderHtml() {
   return orderListHtml;
 }
 
+// rendering the Html on the page
 function renderHtml() {
   const menuList = document.querySelector("#menu-list");
   menuList.innerHTML = getMenuListHtml();
