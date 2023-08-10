@@ -16,6 +16,12 @@ document.addEventListener("click", (e) => {
   }
 });
 
+document.addEventListener("submit", (e) => {
+  if (e.target.id === "payment-details-form") {
+    handlePayBtnClick(e);
+  }
+});
+
 function handleAddBtnClick(menuItemId) {
   const targetMenuObj = menuArray.find(
     (item) => item.id === Number(menuItemId)
@@ -66,6 +72,18 @@ function incrementOrderQuantity(orderItemId) {
 
 function handleOrderBtnClick() {
   document.querySelector("#payment-modal").classList.toggle("hidden");
+}
+
+function handlePayBtnClick(e) {
+  e.preventDefault();
+  const paymentDetailsForm = document.querySelector("#payment-details-form");
+  const paymentFormData = new FormData(paymentDetailsForm);
+  const name = paymentFormData.get("name");
+
+  document.querySelector("#payment-modal").classList.toggle("hidden");
+
+  document.querySelector("#order-list").innerHTML = `
+    <p class="confirmation-message">Thanks ${name}! Your order is on its way!</p>`;
 }
 
 function getMenuListHtml() {

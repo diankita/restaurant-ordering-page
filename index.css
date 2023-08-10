@@ -198,7 +198,19 @@ input {
   margin-top: 20px;
 }
 
+/* confirmation message */
+.confirmation-message {
+  color: #065f46;
+  font-size: 32px;
+  font-weight: 400;
+  border-radius: 3px;
+  background: #ecfdf5;
+  padding: 45px 10px;
+  text-align: center;
+  margin: 45px 0;
+}
 
+/* utility class */
 .hidden {
   display: none;
 }
