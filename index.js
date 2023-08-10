@@ -13,6 +13,8 @@ document.addEventListener("click", (e) => {
     incrementOrderQuantity(e.target.dataset.itemToIncrement);
   } else if (e.target.id === "order-btn") {
     handleOrderBtnClick();
+  } else if (e.target.classList.contains("emoji-btn")) {
+    displayThankYouMessage();
   }
 });
 
@@ -82,8 +84,20 @@ function handlePayBtnClick(e) {
 
   document.querySelector("#payment-modal").classList.toggle("hidden");
 
-  document.querySelector("#order-list").innerHTML = `
-    <p class="confirmation-message">Thanks ${name}! Your order is on its way!</p>`;
+  document.querySelector("#order-inner").innerHTML = `
+    <p class="confirmation-message">Thanks ${name}! Your order is on its way!</p>
+    `;
+
+  setTimeout(() => {
+    document.querySelector("#feedback-modal").classList.remove("hidden");
+  }, 2000);
+}
+
+function displayThankYouMessage() {
+  document.querySelector("#feedback-modal-inner").innerHTML = `
+    <p class="confirmation-message">Thank you for your feedback!</p>
+    <div class="emoji-btn">❤️</div>
+    `;
 }
 
 function getMenuListHtml() {

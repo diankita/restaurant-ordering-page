@@ -21,7 +21,7 @@
 		<div class="menu-list" id="menu-list"></div>
 		<div class="order-list" id="order-list"></div>
 	</main>
-	<div class="hidden" id="payment-modal">
+	<div class="modal hidden" id="payment-modal">
 		<div class="modal-inner">
 			<h3>Enter card details</h3>
 			<form id="payment-details-form">
@@ -32,6 +32,18 @@
 			</form>
 		</div>
 	</div>
+		<div class="modal hidden" id="feedback-modal">
+			<div class="modal-inner" id="feedback-modal-inner">
+				<h3>How was your experience with us?</h3>
+				<div class="feedback-emojis">
+					<span><button class="emoji-btn">😠</button></span>
+					<span><button class="emoji-btn">🙁</button></span>
+					<span><button class="emoji-btn">😐</button></span>
+					<span><button class="emoji-btn">🙂</button></span>
+					<span><button class="emoji-btn">😍</button></span>
+				</div>
+			</div>
+		</div></body>
 	<script src="index.js" type="module"></script>
 </body>
 

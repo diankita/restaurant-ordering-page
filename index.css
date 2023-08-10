@@ -40,7 +40,6 @@ h3 {
   font-family: Verdana;
   font-size: 24px;
   font-weight: 700;
-  text-align: center;
 }
 
 /* menu list */
@@ -163,7 +162,7 @@ button {
 }
 
 /* modal */
-#payment-modal {
+.modal {
   position: fixed;
   margin: 0 auto;
   padding: 30px 20px;
@@ -182,9 +181,10 @@ button {
 }
 
 .modal-inner {
-  display: flex;
-  flex-direction: column;
+  text-align: center;
 }
+
+/* payment modal */
 
 input {
   color: #757575;
@@ -196,6 +196,22 @@ input {
   width: 100%;
   padding: 15px 25px;
   margin-top: 20px;
+}
+
+/* feedback modal */
+#feedback-modal-inner {
+  padding-top: 30px;
+}
+
+.feedback-emojis {
+  padding: 60px 0px;
+}
+
+.emoji-btn {
+  background: #fff;
+  border: none;
+  font-size: 60px;
+  padding: 10px;
 }
 
 /* confirmation message */
